@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gemini AI Chatbot</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <header class="chat-header">
+
+            <div>
+                <h1>🤖 Gemini AI Chatbot</h1>
+
+                <p>
+                    AI Assistant with Conversation History
+                </p>
+            </div>
+
+            <button id="clearButton">
+                🗑️ Clear
+            </button>
+
+        </header>
+
+
+        <main id="chatBox" class="chat-box">
+
+            <div class="message assistant">
+                <div class="bubble">
+                    Hello! 👋 I'm your Gemini AI Assistant.
+                    How can I help you today?
+                </div>
+            </div>
+
+        </main>
+
+
+        <form id="chatForm" class="input-area">
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Type your message..."
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit">
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        const chatForm = document.getElementById("chatForm");
+
+        const messageInput =
+            document.getElementById("messageInput");
+
+        const chatBox =
+            document.getElementById("chatBox");
+
+        const clearButton =
+            document.getElementById("clearButton");
+
+
+        function addMessage(message, type) {
+
+            const messageDiv =
+                document.createElement("div");
+
+            messageDiv.className =
+                `message ${type}`;
+
+            const bubble =
+                document.createElement("div");
+
+            bubble.className = "bubble";
+
+            bubble.textContent = message;
+
+            messageDiv.appendChild(bubble);
+
+            chatBox.appendChild(messageDiv);
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+        }
+
+
+        chatForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const message =
+                messageInput.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            addMessage(message, "user");
+
+            messageInput.value = "";
+
+            try {
+
+                const response =
+                    await fetch("/chat", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            message: message
+                        })
+
+                    });
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.response) {
+
+                    addMessage(
+                        data.response,
+                        "assistant"
+                    );
+
+                } else {
+
+                    addMessage(
+                        data.error || "Something went wrong.",
+                        "assistant"
+                    );
+
+                }
+
+            } catch (error) {
+
+                addMessage(
+                    "Unable to connect to the server.",
+                    "assistant"
+                );
+
+            }
+
+        });
+
+
+        clearButton.addEventListener("click", async () => {
+
+            try {
+
+                await fetch("/clear", {
+                    method: "POST"
+                });
+
+                chatBox.innerHTML = "";
+
+                addMessage(
+                    "Conversation cleared. How can I help you?",
+                    "assistant"
+                );
+
+            } catch (error) {
+
+                addMessage(
+                    "Unable to clear conversation.",
+                    "assistant"
+                );
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

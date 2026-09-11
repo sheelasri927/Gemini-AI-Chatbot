@@ -1,0 +1,180 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: Arial, sans-serif;
+
+    background: #f2f2f2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-container {
+    width: 95%;
+    max-width: 850px;
+
+    height: 90vh;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.chat-header {
+    padding: 20px;
+
+    background: #333;
+
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h1 {
+    margin: 0 0 5px;
+}
+
+.chat-header p {
+    margin: 0;
+
+    opacity: 0.8;
+}
+
+#clearButton {
+    padding: 10px 15px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.chat-box {
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    background: #fafafa;
+}
+
+.message {
+    display: flex;
+
+    margin-bottom: 15px;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.assistant {
+    justify-content: flex-start;
+}
+
+.bubble {
+    max-width: 75%;
+
+    padding: 12px 16px;
+
+    border-radius: 12px;
+
+    line-height: 1.5;
+
+    white-space: pre-wrap;
+}
+
+.user .bubble {
+    background: #ddd;
+
+    color: #111;
+}
+
+.assistant .bubble {
+    background: #eee;
+
+    color: #111;
+}
+
+.input-area {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border-top: 1px solid #ddd;
+
+    background: white;
+}
+
+#messageInput {
+    flex: 1;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+.input-area button {
+    padding: 13px 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+
+@media (max-width: 600px) {
+
+    .chat-container {
+        width: 100%;
+
+        height: 100vh;
+
+        border-radius: 0;
+    }
+
+    .chat-header {
+        padding: 15px;
+    }
+
+    .chat-header h1 {
+        font-size: 20px;
+    }
+
+    .bubble {
+        max-width: 85%;
+    }
+
+}
